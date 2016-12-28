@@ -1,0 +1,125 @@
+\documentclass[dcc]{fcfmcourse}
+\usepackage{teoria}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts,setspace}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{parskip}
+\usepackage[bottom]{footmisc}
+
+
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+ % commentstyle=\color{red},
+  %keywordstyle=\color{blue}
+}
+\usepackage{cancel}
+\usepackage{hyperref}
+\usepackage{epstopdf}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\cfoot{``In mathematics the art of asking questions is more valuable than solving problems" \\ Georg Cantor}
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{porange}{rgb}{0.9,0.5,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\lstset{language=Java,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{porange},
+ % keywordstyle=\color{pblue},
+  stringstyle=\color{pgreen},
+  basicstyle=\ttfamily,
+  moredelim=[il][\textcolor{pgrey}]{$ $},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
+\renewcommand{\figurename}{Figura}
+
+\newenvironment{codebox} {\small \ttfamily \obeylines \begingroup \setstretch{-2.4}} {\endgroup}
+
+\title{Tarea 3}
+\course[CC3102]{Teoría de la Computación}
+\professor{Gonzalo Navarro}
+\assistant{Manuel Cáceres}
+\assistant{Ian Letter}
+
+% Si pasas el comando usedate a la clase, la fecha aparecerá bajo la lista de auxiliares.
+% Puedes usar el formato de fecha por defecto de latex (y traducirla usando babel)
+% o puedes escribir lo que quieras con el comando \date.
+% \date{1 de Septiembre, 2015}
+
+\begin{document}
+\maketitle
+\begin{center}
+Fecha de entrega : 16 de Diciembre del 2016
+\end{center}
+\vspace{-1ex}
+
+\section*{Descripción}
+Esta tarea consiste en la construcción de Máquinas de Turing (MT) que computan funciones usando notación modular\footnote{Sección 4.3 del apunte \url{http://www.dcc.uchile.cl/~gnavarro/apunte.pdf} } y la herramienta de construcción de máquinas ``Online Turing Machine Simulator'' \footnote{\url{http://turingmachinesimulator.com}}
+
+
+Recordemos que una MT $M = (K,\Sigma,\delta, s)$ computa una función $f\colon \Sigma^* \to \Sigma^*$ si
+\begin{align*}
+\forall w \in \Sigma^* ,\quad (s,\# w\underline{\# }) \vdash_{M}^* (h, \# f(w) \underline{\#})
+\end{align*}
+
+También permitimos computar funciones de varios argumentos de modo que $M$ computa\\ $f\colon \underbrace{\Sigma^* \times \ldots \times \Sigma^*}_{k} \to \Sigma^*$ si 
+\begin{align*}
+\forall w_{1},\ldots,w_{k} \in \Sigma^* ,\quad (s,\# w_{1}\#\ldots\# w_{k}\underline{\# }) \vdash_{M}^* (h, \# f(w_{1},\ldots,w_{k}) \underline{\#})
+\end{align*}
+Además decimos que $M$ computa $f\colon \mathbb{N} \to \mathbb{N}$, si computa $g\colon \{I\}^* \to \{I\}^*$ dada por $g(I^{n}) = I^{f(n)}$ . Del mismo modo $M$ computa $f\colon \underbrace{\mathbb{N}\times \ldots \times \mathbb{N}}_{k} \to \mathbb{N}$, si computa $g\colon \underbrace{\{I\}^* \times \ldots \times \{I\}^*}_{k} \to \{I\}^*$ dada por $g(I^{n_{1}},\ldots, I^{n_{k}}) = I^{f(n_{1},\ldots,  n_{k})}$.\\
+
+En esta tarea se le pide que construya las máquinas que calculan las siguientes funciones:
+\begin{itemize}
+\item $f(n) = 2^n$
+\item $f(m,n) = m^n$
+\item $f(m,n) = \left \lfloor{\log_{m} n}\right \rfloor $
+\end{itemize}
+En cada uno de los mecanismos explicados a continuación.
+\section*{Notación Modular}
+En Notación Modular una Máquina de Turing corresponde a un grafo dirigido cuyos nodos representan acciones y las aristas condiciones sobre la/s cinta/s, estas acciones realmente corresponden a otras máquinas de turing.\\
+Cada nodo tiene una secuencia de acciones que se ejecutan al llegar a este, luego de ejecutarlas se consideran las aristas que salen de él. Las aristas, en principio, están rotuladas con símbolos de $\Sigma$ y se sigue aquella que contenga el símbolo que en ese momento se encuentra en el cabezal de la máquina. Finalmente la máquina se detiene cuando desde un nodo no hay otro a donde ir.\footnote{Ejemplos y una explicación más detallada se puede encontrar en la Sección 4.3 del apunte \url{http://www.dcc.uchile.cl/~gnavarro/apunte.pdf}}.\\
+
+Para la resolución de esta tarea, las submáquinas que pueden ser utilizadas y su descripción correspondiente son:
+\begin{itemize}
+\item $\underline{\rhd} \to$ mueve el cabezal una posición hacia la derecha
+\item $\underline{\lhd} \to$ mueve el cabezal una posición hacia la izquierda
+\item $\underline{b} \to$, con $b\in\Sigma$, escribe $b$ en la posición en la que se encuentra el cabezal
+\item $\underline{\rhd_{A}} \to$ se mueve hacia la derecha hasta encontrar algún caracter del conjunto $A$ en la cinta (comienza moviéndose)
+\item $\underline{\lhd_{A}} \to$ se mueve hacia la izquierda hasta encontrar algún caracter del conjunto $A$ en la cinta (comienza moviéndose)
+\item $\underline{B} \to$ se mueve hacia la izquierda hasta encontrar un $\#$ escribiendo $\#$ en la cinta (comienza moviéndose)
+\item $\underline{S_{\rhd}}\colon \#w\underline{\#} \mapsto \#\#w\underline{\#}$
+\item $\underline{S_{\lhd}}\colon \#w\underline{\#} \mapsto w\underline{\#}$
+\item $\underline{C}\colon \#w\underline{\#} \mapsto \#w\#w\underline{\#}$
+\item $\underline{R}\to$ computa $f(n,m)=max(n-m,0)$
+\item $\underline{M}\to$ computa $f(n,m)=nm$
+\item $\underline{\%}\to$ computa $f(n,m)=n\ mod\ m$
+\item $\underline{D}\to$ computa $f(n,m)=\lfloor \frac{n}{m} \rfloor$
+\end{itemize}
+Utilice estas máquinas solo si lo considera útil, además usted puede definir las submáquinas que estime conveniente.
+\section*{Online Turing Machine Simulator}
+En el Simulador Online de Máquinas de Turing (\url{http://turingmachinesimulator.com}), se puede tanto construir como ejecutar máquinas. La interfaz de la aplicación es bastante intuitiva y contiene ejemplos y tutoriales que facilitan su uso.\\
+
+El modelo de máquina de turing considerado en la aplicación es un poco diferente al visto en clases, pero posee el mismo poder computacional que este último.\\
+
+De modo general, la construcción de una máquina consiste en:
+\begin{itemize}
+    \item La especificación de un \textit{estado inicial}
+    \item La especificación de un conjunto de \textit{estados de aceptación}. Si la máquina no satisface ninguna condición de ejecución se detiene y acepta la palabra si se encuentra en alguno de estos estados
+    \item La especificación de un conjunto de \textit{transiciones}. En cada una de ellas se especifica el estado de origen, el estado de destino, una condición de lectura, una acción de escritura (opcional), una acción de movimiento de cabezal (opcional)
+\end{itemize}
+El protocolo que consideraremos para el cómputo de una función consiste en que la máquina deje en alguna de sus cintas el resultado de computar la función y que la máquina se detenga en un estado de aceptación.
+\section*{Entrega}
+\begin{itemize}
+\item El plazo de la entrega vence el día 16 de Diciembre del 2016. La entrega debe ser en grupos de hasta 3 personas.
+\item La entrega consiste en un informe donde se muestren las dos versiones de las máquinas construidas para cada una de las funciones antes mencionadas, además debe explicar brevemente el funcionamiento de sus máquinas (si corresponde: invariantes utilizados, casos de borde considerados, idea general de funcionamiento, etc.) y adjuntar los códigos correspondientes a las máquinas construidas en ``Online Turing Machine Simulator'' como archivos de texto plano separados. Es \textbf{importante} que adjunte estos archivos y no enlaces web a sus máquinas, puesto que estos podrían desaparecer.
+\end{itemize}
+\end{document}

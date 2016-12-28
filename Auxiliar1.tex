@@ -1,0 +1,411 @@
+\documentclass[dcc]{fcfmcourse}
+\usepackage{teoria}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts,setspace}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{cancel}
+\usepackage{epstopdf}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\cfoot{``In mathematics the art of asking questions is more valuable than solving problems" \\ Georg Cantor}
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{porange}{rgb}{0.9,0.5,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\lstset{language=Java,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{porange},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pgreen},
+  basicstyle=\ttfamily,
+  moredelim=[il][\textcolor{pgrey}]{$ $},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
+
+\newenvironment{codebox} {\small \ttfamily \obeylines \begingroup \setstretch{-2.4}} {\endgroup}
+
+\title{Auxiliar 1}
+\course[CC3102]{Teoría de la Computación}
+\professor{Gonzalo Navarro}
+\assistant{Manuel Cáceres}
+\assistant{Ian Letter}
+
+% Si pasas el comando usedate a la clase, la fecha aparecerá bajo la lista de auxiliares.
+% Puedes usar el formato de fecha por defecto de latex (y traducirla usando babel)
+% o puedes escribir lo que quieras con el comando \date.
+% \date{1 de Septiembre, 2015}
+
+\begin{document}
+\maketitle
+\begin{center}
+7 de Septiembre del 2016
+\end{center}
+\vspace{-1ex}
+
+\section*{Conjuntos}
+\begin{problems}
+\problem Demuestre
+\begin{enumerate}[a)]
+\item $A \subseteq B \Leftrightarrow A \cap \overline{B} = \emptyset$
+%%\problem Demuestre que $(A \cup B) \setminus (A \cap B) = (A \setminus B) \cup ( B \setminus A)$
+\item $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+\item $(2^A \cup 2^B) \subseteq 2^{A \cup B}$. ¿Qué sucede con la otra inclusión?
+%%\problem Demuestre que $2^{A \cap B} = 2^A \cap 2^B$
+\end{enumerate}
+\problem Sea el conjunto $\mathcal{X} = \left\{ A : A \not \in A \right\}$. ¿Es verdad que $\mathcal{X} \in \mathcal{X}$?
+\problem Demuestre 
+\begin{center}
+$(x,y) = (a,b) \Leftrightarrow \left\{ \{x\} , \{x,y\}\right\} = \left\{ \{a\} , \{a,b\}\right\}$
+\end{center}
+
+\end{problems}
+
+\section*{Relaciones}
+\begin{problems}
+\problem Se define la relación $\mathcal{R}$ en $\mathbb{R} \setminus \{0\}$ por :
+\begin{align*}
+    x\mathcal{R}y \Leftrightarrow xy>0
+\end{align*}
+Demuestre que $\mathcal{R}$ es una relación de equivalencia. Calcule el conjunto cuociente $(\mathbb{R} \setminus \{0\})/\mathcal{R}$
+\problem Sea $U$ un conjunto no vacío y considere $K \in \mathcal{P}(U)$ fijo, con $K \not = \emptyset$. Se define en $\mathcal{P}(U)$ la relación $\mathcal{R}_{K}$ por:
+\begin{align*}
+    A\mathcal{R}_{K}B \Leftrightarrow B \cap K \subseteq A
+\end{align*}
+Pruebe  que $\mathcal{R}_{K}$ es refleja y transitiva. Proponga un conjunto $K \in \mathcal{P}(U)$ de modo que $\mathcal{R}_{K}$ sea una relación de órden.
+%\problem Sobre un conjunto de proposiciones $\mathcal{P}$ lógicas, se define la relación $\mathcal{R}$ por:
+%\begin{align*}
+%    p\mathcal{R}q \Leftrightarrow ((p \land q) \Leftrightarrow q)
+%\end{align*}
+%Demuestre que $\mathcal{R}$ es una relación de órden sobre $\mathcal{P}$. Pruebe que $\mathcal{R}$ es una relación de órden total.
+%\problem Sea $\mathcal{R}$ una relación en un conjunto $A$. Demuestre que $R^* = \bigcup\limits_{i\ge 1} \mathcal{R}^i$ es la menor %relación transitiva en $A$ que contiene a $\mathcal{R}$
+\end{problems}
+\newpage
+\section*{Funciones}
+\begin{problems}
+\problem Encuentre un ejemplo de funci\'on $f: \mathbb{N} \rightarrow \mathbb{N}$ que sea :
+\begin{enumerate}[a)]
+ \item Sobreyectiva pero no inyectiva
+ \item Inyectiva pero no sobreyectiva
+\end{enumerate} 
+\problem Sea $U \not = \emptyset$ un conjunto fijo. Para todo subconjunto $A$ de $U$ se define  la función característica de $A$ como:
+\begin{align*}
+  \delta_{A} \colon U &\to \{0,1\}\\
+  x &\mapsto \delta_{A} =  \left\{\begin{array}{lr}
+        1 & \text{si } x\in A\\
+        0 & \text{si } x\not\in A
+        \end{array}
+   \right..
+\end{align*}
+\begin{enumerate}[a)]
+\item Describa $\delta_{U}(x)$ y $\delta_{\emptyset}(x)$ para todo $x \in U$
+\item Demuestre que $(\forall x \in U)\ \delta_{A \cap B}(x) = \delta_{A}(x)\delta_{B}(x)$
+\item Si $C,D \subseteq U$, entonces $C \subseteq D \Leftrightarrow (\forall x \in U)\ \delta_{C}(x) \le \delta_{D}(x)$
+\end{enumerate}
+\end{problems}
+
+\section*{Inducción}
+\begin{problems}
+%\problem Demuestre por inducción $1\cdot 2 + 2\cdot 3 + 3\cdot 4 + \ldots + n(n+1) = \frac{n(n+1)(n+2)}{3}$
+\problem Demuestre por inducción $A \cap \bigcup\limits_{i = 1}^{n}B_{i} = \bigcup\limits_{i = 1}^{n}A \cap B_{i} $
+%%\problem induccion mal aplicada
+\problem Se define la secuencia de Fibonacci :
+\begin{align*}
+\begin{array}{llr}
+        f_{0} =  & 0&\\
+        f_{1} =& 1&\\
+        f_{n} = & f_{n-1} + f_{n-2} & \forall n \ge 2
+        \end{array}
+\end{align*}
+Demuestre por inducción $f_{n-1}\cdot f_{n+1} - (f_{n})^{2} = (-1)^n$
+%\problem Uno de reverso
+%\problem Demuestre que todo numero mayor que $1$ se puede escribir como el producto de números primos
+%\problem Pablo muñoz
+\problem Se define $\mathcal{L}$, el lenguaje de los paréntesis balanceados de la siguiente manera:
+\begin{itemize}
+\item $\epsilon \in \mathcal{L}$
+\item Si $\omega_{1}, \omega_{2} \in \mathcal{L}$ entonces $\left(\omega_{1}\right)\omega_{2} \in \mathcal{L}$
+\end{itemize}
+Demuestre utilizando inducción que $\forall w \in \mathcal{L}$, el número de paréntesis izquierdos es igual al número de paréntesis derechos.
+
+%\problem El reverso de un string $\omega \in \Sigma^*$ es "el string escrito hacia atrás" y se denota por $\omega^r$
+%\begin{enumerate}
+%\item De una definición recursiva $\omega^r$
+%\item Utilice su definición anterior para demostrar que $\forall \omega_{1}, \omega_{2} \in \Sigma^*, (\omega_{1}\omega_{2})^r = \omega_{2}^r\omega_{1}^r$
+%\end{enumerate}
+\end{problems}
+
+
+%\section*{Cardinalidad}
+%\begin{problems}
+%\problem Ak es numerable por induccion
+%\end{problems}
+
+
+%\section*{Lenguajes y Palabras}
+%\begin{problems}
+%\problem El de codificar una palabra
+%\problem Miguel romero
+%\end{problems}
+
+
+\newpage
+\begin{center}
+{\huge \underline{Soluciones}}
+\end{center}
+\section*{Conjuntos}
+\begin{problems}
+\problem 
+\begin{enumerate}[a)]
+\item Demostración por doble implicancia\\
+
+$\underline{\Rightarrow}:$ Por contradicción supongamos
+\begin{align*}
+&x \in A \cap \overline{B}\\
+\Leftrightarrow\ & x \in A \land x \in \overline{B}\\
+\Leftrightarrow\ & x \in A \land x \not\in B\\
+\Rightarrow\ & x\in B \land x \not\in B
+\end{align*}
+Lo que es una contradicción.\\
+
+
+$\underline{\Leftarrow}:$ Sea $x \in A$ \\
+Por contradicción supongamos
+\begin{align*}
+&x \not\in B\\
+\Rightarrow\ & x\in A \cap \overline{B} = \emptyset
+\end{align*}
+Lo que es una contradicción.\\
+
+\item Demostraremos igualdad mostrando que cualquier elemento está en un conjunto si y solo si está en el otro
+\begin{align*}
+Sea\ & x \in A \cap (B \cup C) \\
+\Leftrightarrow\ & x \in A \land (x \in B \cup C)\\
+\Leftrightarrow\ & x \in A \land (x \in B \lor x\in C)\\
+\Leftrightarrow\ & (x \in A \land x \in B) \lor ( x \in A \land x\in C)\\
+\Leftrightarrow\ & (x \in A \cap B) \lor ( x \in A \cap C)\\
+\Leftrightarrow\ & x \in (A \cap B) \cup (A \cap C)\\
+\end{align*}
+\item 
+\begin{align*}
+Sea\ & X \in 2^A \cup 2^B \\
+\Leftrightarrow\ & X \in 2^A \lor X\in 2^B \\
+\Leftrightarrow\ & X \subseteq A \lor X \subseteq B \\
+\Rightarrow\ & X \subseteq A \cup B \\
+\Leftrightarrow\ & X \in 2^{A \cup B}
+\end{align*}
+\end{enumerate}
+\problem Pongámonos en ambos casos
+\begin{itemize}
+\item $\mathcal{X} \in \mathcal{X}$, entonces por definición de $\mathcal{X}$, deducimos que $\mathcal{X} \not\in \mathcal{X}$, lo que es una contradicción
+\item $\mathcal{X} \not\in \mathcal{X}$, entonces $\mathcal{X}$ no cumple la definición de $\mathcal{X}$, es decir $\mathcal{X} \not\in \mathcal{X}$, que también es una contradicción
+\end{itemize}
+Lo anterior es mejor conocido como paradoja de Russell o paradoja del barbero.
+
+\problem 
+Demostración por doble implicancia\\
+
+$\underline{\Rightarrow}:$ 
+\begin{align*}
+&\{\{x\}, \{x, y\}\}\\
+=\ & \{\{a\}, \{a, y\}\}\\
+=\ & \{\{a\}, \{a, b\}\}
+\end{align*}
+
+
+$\underline{\Leftarrow}:$ \\
+\underline{Caso $x = y$}:
+\begin{align*}
+&\{\{x\}, \{x, y\}\}\\
+=\ & \{\{x\}, \{x\}\}\\
+=\ & \{\{x\}\}
+\end{align*}
+Ahora, por la hipótesis sabemos que todo elemento de $\{\{a\}, \{a, b\}\}$ está en $\{\{x\}\}$, en paticular concluimos que $\{\{x\}\} = \{\{a\}\} = \{\{a, b\}\}$ de lo que se desprende que $x=y=a=b$ por lo que $(x,y) = (a,b)$.\\
+
+\underline{Caso $x \not= y$}:
+Podemos afirmar que $|\{\{x\}, \{x, y\}\}| = 2$, y que además sus elementos son un conjunto de cardinal $1$ y otro de cardinal $2$.
+Por hipótesis sabemos que todo elemento de $\{\{a\}, \{a, b\}\}$ está en $\{\{x\}, \{x, y\}\}$, en particular $\{a\}$ lo está, el cual se identifica con $\{x\}$ (pues el otro tiene cardinal 2) por lo que $x=a$. Por otro lado, todo elemento de $\{\{x\}, \{x, y\}\}$ está en $\{\{a\}, \{a, b\}\}$, en particular $\{x,y\}$ lo estará, el cual se identifica con $\{a,b\}$ (pues el otro solo tiene 1 elemento), es decir, $\{x,y\} = \{a,b\}$, aplicando nuestro mismo argumento anterior $y \in \{a,b\}$, pero no puede ser $a$ (si lo fuese tendríamos $x=y$), por lo que $y=b$. Finalmente $(x,y) = (a,b)$.
+\end{problems}
+
+\section*{Relaciones}
+\begin{problems}
+\problem Para demostrar que $\mathcal{R}$ es una relación de equivalencia debemos ver que es refleja, simétrica y transitiva.\\
+
+\underline{Refleja}: \\
+\begin{align*}
+&x \mathcal{R} x\\
+\Leftrightarrow\ & x \cdot x > 0\\
+\Leftrightarrow\ & x^2 > 0
+\end{align*}
+Que sabemos verdad $\forall x \in \mathbb{R}\setminus \{0\}$\\
+
+\underline{Simétrica}: \\
+\begin{align*}
+&x \mathcal{R} y\\
+\Leftrightarrow\ & xy > 0\\
+\Leftrightarrow\ & yx > 0\\
+\Leftrightarrow\ & y \mathcal{R} x
+\end{align*}
+
+\underline{Transitiva}: \\
+\begin{align*}
+&x \mathcal{R} y \land y \mathcal{R} z\\
+\Leftrightarrow\ & xy > 0 \land yz > 0\\
+\Leftrightarrow\ & xy \cdot yz > 0\\
+\Leftrightarrow\ & xy^2z > 0\\
+\Leftrightarrow\ & xz > 0\\
+\Leftrightarrow\ & x \mathcal{R} z
+\end{align*}
+
+Dado que la multiplicación de números de igual signo da positivo postulamos que el conjunto cuociente es $\{\left[1\right], \left[-1\right]\}$. Para mostrarlo veamos que $\forall x \in \mathbb{R}^+, x \mathcal{R} 1$ y $\forall x \in \mathbb{R}^-, x \mathcal{R} -1$, por lo que juntas completan $\mathbb{R} \setminus \{0\}$. Por otro lado, como $-1 \bcancel{\mathcal{R}} 1$ estas clases son disjuntas.
+\problem  
+\underline{Refleja}: \\
+\begin{align*}
+&A \mathcal{R}_{K} A\\
+\Leftrightarrow\ & A \cap K \subseteq A\\
+\end{align*}
+Que es cierto $\forall K$.
+
+\underline{Transitiva}: \\
+\begin{align*}
+& A \mathcal{R}_{K} B \land B \mathcal{R}_{K} C \Rightarrow A \mathcal{R}_{K} C\\
+\Leftrightarrow\ & B \cap K \subseteq A \land C \cap K \subseteq B \Rightarrow C \cap K \subseteq A\\
+\end{align*}
+
+Sea 
+\begin{align*}
+& x \in C \cap K\\
+\Leftrightarrow\ & x \in C \land x \in K\\
+\Rightarrow\ & x \in B\\
+\text{todo lo anterior }\Rightarrow\ & x \in B \cap K\\
+\Rightarrow\ & x \in A
+\end{align*}
+
+Veamos que si elegimos $K = U$ tenemos que si $A \cap U = A, \forall A$, por lo que  ($A\mathcal{R}_{U}B \land B\mathcal{R}_{U}A \Leftrightarrow A\subseteq B \land B\subseteq A \Leftrightarrow A=B$) $\mathcal{R}_{U}$ es antisimétrica. Y dado que ya demostramos que es refleja y transitiva, se concluye que es una relación de órden.
+\end{problems}
+
+\section*{Funciones}
+\begin{problems}
+\problem 
+\begin{enumerate}[a)]
+\item 
+\begin{align*}
+      f \colon \mathbb{N} &\to \mathbb{N}\\
+      n &\mapsto f(n) =  \left\{\begin{array}{lr}
+            0 & \text{si } n=0\\
+            n-1 & \text{si no}
+            \end{array}
+       \right..
+\end{align*}
+Que es sobreyectiva, porque a cualquier elemento $n$ del conjunto de llegada le puedo asociar la preimagen $n+1$, pero no inyectiva pues el $0$ tiene dos preimagenes.
+
+\item
+\begin{align*}
+      f \colon \mathbb{N} &\to \mathbb{N}\\
+      n &\mapsto f(n) =  2n
+\end{align*}
+Que es inyectiva pues a cada número se le asocia un número par único, pero no es sobreyectiva pues los números impares no son parte de la imagen de f.
+\end{enumerate}
+\problem 
+\begin{enumerate}[a)]
+\item Veamos que si  $A=U$, $\forall x\in U \delta_{U}(x) = 1$, pues $x \in U$. Por otro lado si $A=\emptyset$, $\forall x \in U, \delta_{\emptyset}(x) = 0$, pues $\forall x, x \not\in \emptyset$.
+\item Sea $x \in U$ y separemos los casos:\\
+
+\underline{Caso $x \in A\cap B$}:\\
+En este caso $\delta_{A \cap B}(x) = 1$, por otro lado:
+\begin{align*}
+& x\in A\cap B\\
+\Leftrightarrow\ & x\in A \land x \in B\\
+\Leftrightarrow\ & \delta_{A}(x) = 1 \land \delta_{B}(x) = 1\\
+\Rightarrow\ & \delta_{A}(x)\delta_{B}(x) = 1 = \delta_{A \cap B}(x)
+\end{align*}
+
+\underline{Caso $x \not\in A\cap B$}:\\
+En este caso $\delta_{A \cap B}(x) = 0$, por otro lado:
+\begin{align*}
+& x\not\in A\cap B\\
+\Leftrightarrow\ & x\not\in A \lor x \not\in B\\
+\Leftrightarrow\ & \delta_{A}(x) = 0 \lor \delta_{B}(x) = 0\\
+\Rightarrow\ & \delta_{A}(x)\delta_{B}(x) = 0 = \delta_{A \cap B}(x)
+\end{align*}
+
+\item 
+Demostración por doble implicancia\\
+
+$\underline{\Rightarrow}:$ 
+Sea $x\in U$. \\
+Si $x\in C$, entonces $x\in D$, con lo que se cumple que $1 = \delta_{C}(x) \leq \delta_{D}(x) = 1$. Por otro lado, si $x \not \in C$, entonces $\delta_{C}(x) = 0 \leq \delta_{D}(x)$ (pues $\delta_{A}(x) \geq 0\ \forall A$).\\
+
+$\underline{\Leftarrow}:$ 
+Sea $x\in C$.\\
+Luego se cumple que $\delta_{C}(x) = 1 \leq \delta_{D}(x)$, por lo que $\delta_{D}(x) = 1$, y entonces $x\in D$.
+
+\end{enumerate}
+\end{problems}
+
+\section*{Inducción}
+\begin{problems}
+\problem 
+\underline{Caso base $n = 1$}: \\
+En este caso ambos lados de la igualdad dan $A\cap B_{1}$, por lo que la igualdad de cumple.\\
+\newpage
+\underline{Paso inductivo}:\\ 
+\begin{align*}
+&A \cap \bigcup\limits_{i = 1}^{n+1}B_{i}\\
+=\ &A \cap \left(\bigcup\limits_{i = 1}^{n}B_{i} \cup B_{n+1}\right)\\
+=\ &\left( A \cap \bigcup\limits_{i = 1}^{n}B_{i}\right) \cup \left( A \cap B_{n+1}\right)\\
+=\ &\left( \bigcup\limits_{i = 1}^{n}A \cap B_{i}\right) \cup \left( A \cap B_{n+1}\right)\\
+=\ &\bigcup\limits_{i = 1}^{n+1}A \cap B_{i}
+\end{align*}
+\problem Reescribamos lo que queremos demostrar como $(f_{n})^{2} = f_{n-1}\cdot f_{n+1} - (-1)^n$.\\
+
+\underline{Caso base $n = 1$}: \\
+\begin{align*}
+& f_{n-1}\cdot f_{n+1} - (-1)^n\\
+=\ &f_{0}\cdot f_{2} - (-1)^1\\
+=\ &0\cdot 1 + 1\\
+=\ & (1)^{2}\\
+=\ & (f_{1})^{2}\\
+=\ & (f_{n})^{2}
+\end{align*}
+
+\underline{Paso inductivo}:\\ 
+\begin{align*}
+& f_{n}\cdot f_{n+2} - (-1)^{n+1}\\
+=\ & f_{n}\cdot (f_{n+1} + f_{n}) - (-1)^{n+1}\\
+=\ & f_{n}\cdot f_{n+1} + (f_{n})^2 - (-1)^{n+1}\\
+=\ & f_{n}\cdot f_{n+1} + f_{n-1}\cdot f_{n+1} - (-1)^n - (-1)^{n+1}\\
+=\ & f_{n+1} ( f_{n} + f_{n-1})\\
+=\ & f_{n+1} \cdot f_{n+1}\\
+=\ & (f_{n+1})^{2}
+\end{align*}
+\problem 
+Definimos para un $c \in \Sigma$ la función :
+\begin{align*}
+      \#_{c} \colon \Sigma^* &\to \mathbb{N}\\
+      \omega &\mapsto \#_{c}(\omega) = \text{Número de c's en $\omega$}
+\end{align*}
+Con esto, lo que queremos demostrar es $\forall \omega \in \mathcal{L}, \#_{(}(\omega) = \#_{)}(\omega)$.\\
+
+\underline{Caso base $\omega = \epsilon$}: \\
+$0=\#_{(}(\omega) = \#_{)}(\omega)=0$\\
+
+\underline{Paso inductivo $\omega = (\omega_{1})\omega_{2}$}:\\ 
+\begin{align*}
+& \#_{(}(\omega)\\
+=\ & \#_{(}((\omega_{1})\omega_{2})\\
+=\ & \#_{(}(() + \#_{(}(\omega_{1}) + \#_{(}()) + \#_{(}(\omega_{2})\\
+=\ & 1 + \#_{(}(\omega_{1}) + 0 + \#_{(}(\omega_{2})\\
+=\ & 0 + \#_{(}(\omega_{1}) + 1 + \#_{(}(\omega_{2})\\
+=\ & \#_{)}(() + \#_{)}(\omega_{1}) + \#_{)}()) + \#_{)}(\omega_{2})\\
+=\ & \#_{)}((\omega_{1})\omega_{2})\\
+=\ &\#_{)}(\omega)
+\end{align*}
+\end{problems}
+\end{document}

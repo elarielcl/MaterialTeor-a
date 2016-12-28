@@ -1,0 +1,188 @@
+\documentclass[dcc]{fcfmcourse}
+\usepackage{teoria}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts,setspace}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{cancel}
+\usepackage{epstopdf}
+\usepackage{qtree}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usetikzlibrary{automata,positioning}
+\pagestyle{fancy}
+\cfoot{``I wish my wish would not be granted!" \\Douglas R. Hofstadter}
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{porange}{rgb}{0.9,0.5,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\lstset{language=Java,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{porange},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pgreen},
+  basicstyle=\ttfamily,
+  moredelim=[il][\textcolor{pgrey}]{$ $},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
+
+\newenvironment{codebox} {\small \ttfamily \obeylines \begingroup \setstretch{-2.4}} {\endgroup}
+
+\title{Auxiliar 11}
+\course[CC3102]{Teoría de la Computación}
+\professor{Gonzalo Navarro}
+\assistant{Manuel Cáceres}
+\assistant{Ian Letter}
+
+% Si pasas el comando usedate a la clase, la fecha aparecerá bajo la lista de auxiliares.
+% Puedes usar el formato de fecha por defecto de latex (y traducirla usando babel)
+% o puedes escribir lo que quieras con el comando \date.
+% \date{1 de Septiembre, 2015}
+
+\begin{document}
+\maketitle
+\begin{center}
+30 de Noviembre del 2016
+\end{center}
+\vspace{-1ex}
+\begin{problems}
+ \problem Una ``Propiedad'' de un lenguaje corresponde a una familia de lenguajes. Por ejemplo, la Propiedad de ser regular corresponde a la familia de lenguajes regulares; otra es la Propiedad de infinitud que corresponde a los lenguajes que tienen un número infinito de elementos.\\
+  Diremos además que existen dos Propiedades ``triviales'', que corresponden a:
+ \begin{itemize}
+     \item Propiedad $P_{F}$, \textbf{siempre falsa:} Familia que no contiene lenguajes.
+     \item Propiedad $P_{T}$, \textbf{siempre verdadera:} Familia que contiene a todos los lenguajes.
+ \end{itemize}
+ Si $P$ es una Propiedad definimos $L_{P} = \{\rho (M)\colon L(M) \in P\}$.
+ \begin{enumerate}[a)]
+     \item Demuestre que $L_{P}$ es decidible si $P$ es trivial.
+     \item Demuestre que $L_{P}$ es decidible si $P \subseteq \mathcal{L}_{no-aceptables}$ o $P^c \subseteq \mathcal{L}_{no-aceptables}$.
+     \item Demuestre que $L_{P}$ es indecidible si $P$ no es trivial y $\not\subseteq \mathcal{L}_{no-aceptables}$ ni $P^c\not\subseteq \mathcal{L}_{no-aceptables}$.
+     \item Usando lo anterior demuestre que los siguientes lenguajes son indecidibles:
+     \begin{enumerate}[1.]
+         \item $\{\rho (M) \colon M \text{acepta un lenguaje finito}\}$
+         \item $\{\rho (M) \colon M \text{acepta un lenguaje regular}\}$
+         \item $\{\rho (M) \colon M \text{acepta un lenguaje libre del contexto}\}$
+         \item $\{\rho (M) \colon M \text{acepta al menos un palíndrome}\}$
+         \item $\{\rho (M) \colon L(M) = \{\epsilon\}\}$
+         \item Con $k$ fijo, $\{\rho (M) \colon M \text{acepta más de $k$ strings diferentes}\}$
+         \item $\{\rho (M) \colon |L(M)| = \aleph_{0}\}$
+     \end{enumerate}
+ \end{enumerate}
+ \problem Muestre que los siguientes lenguajes son decidibles:
+ \begin{enumerate}[a)]
+     \item $\{\rho (A) \rho (B) \colon \text{$A$ y $B$ son AFDs y } L(A) = L(B)\}$
+     \item $\{\rho(G)\rho(w)\colon \text{$G$ es GLC y } w\in L(G)\}$
+     \item $\{\rho(G)\colon \text{$G$ es GLC y } L(G) = \emptyset \}$
+ \end{enumerate}
+ \problem En cátedra se vio que el lenguaje $EQ_{TM} =\{\rho(M_{1})\rho(M_{2}) \colon L(M_{1}) = L(M_{2})\}$ no es decidible; demuestre que ni él ni su complemento son aceptables.
+ \problem Los siguientes dos lenguajes son indecidibles, ¿son ambos aceptables?
+ \begin{enumerate}[a)]
+     \item $L_{M'}^{\not\subseteq}=\{\rho(M) \colon L(M)\not\subseteq L(M')\}$ con $M'$ un decididor y $L(M') \not = \Sigma^*$.
+  \item $L_{M'}^{\not\supseteq}=\{\rho(M) \colon L(M')\not\subseteq L(M)\}$ con $M'$ un decididor y $L(M') \not = \emptyset$.
+ \end{enumerate}
+\end{problems}
+\newpage
+\begin{center}
+{\huge \underline{Soluciones}}
+\end{center}
+\begin{problems}
+ \problem 
+ \begin{enumerate}[a)]
+     \item 
+     \begin{itemize}
+         \item $P = P_{F} = \emptyset$, entonces $L_{\emptyset}$ = $\{\rho (M)\colon L(M) \in \emptyset\} = \emptyset$. Que sabemos que es decidible.
+         \item $P = P_{V} = 2^{\Sigma^*}$, entonces $L_{2^{\Sigma^*}}$ = $\{\rho (M)\colon L(M) \in 2^{\Sigma^*}\} = \{\rho (M)\}$. Es decir, el lenguaje de TODAS las codificaciones de máquinas, que sabemos que es decidible (algoritmo toma su entrada y decide si corresponde a una codificación de un máquina de turing válida).
+     \end{itemize}
+     \item 
+     \begin{itemize}
+         \item Si $P\subseteq \mathcal{L}_{no-aceptables}$, entonces no hay máquinas que acepten algún lenguaje en $P$ (tampoco codificaciones), por lo que $L_{P} = \emptyset$. Que sabemos que es decidible.
+         \item Si $P^c\subseteq \mathcal{L}_{no-aceptables}$, entonces $\mathcal{L}_{aceptables} \subseteq P$ y por lo tanto, $L_{P}$ contiene a todas las codificaciones de máquinas posibles (y de hecho es exactamente eso), es decir $L_{P} = \{\rho(M)\}$. Que sabemos que es decidible.
+     \end{itemize}
+     
+     \item Supongamos por contradicción que $L_{P}$ es decidible por una máquina $M_{L_{P}}$, crearemos a partir de ella, otra máquina $N$ que decide el lenguaje universal (lo que es una contradicción pues sabemos que $\mathcal{L}_{U}$ es indecidible).\\
+     
+     Primero asumiremos que el lenguaje $\emptyset\not\in P$ y tomaremos $L\in P$ aceptable por una máquina de turing $M_{L}$ (si $\emptyset\in P$ consideramos $P^c$, y $L_{P}^c$ que es decidible, siguiendo una demostración análoga).\\
+     
+     $N$ en su entrada $\rho(M)\rho(w)$ realiza lo siguiente: 
+     \begin{itemize}
+         \item Construye $M'$ (esto es escribe $\rho(M')$ en su cinta) la cual en su entrada $x$ realiza lo siguiente:
+         \begin{itemize}
+             \item Simula $M$ en $w$
+             \item Simula $M_{L}$ en $x$
+             \item Responde lo que responde $M_{L}$
+         \end{itemize}
+         \item Simula $M_{L_{P}}$ en $\rho(M')$
+         \item Responde lo mismo que $M_{L_{P}}$
+     \end{itemize}
+     Notemos ahora que $L(M') = L \in P \Leftrightarrow M$ acepta $w$ y $L(M') = \emptyset \not \in P \Leftrightarrow M$ NO acepta $w$, por lo que  $M_{L_{P}}$ en $\rho(M')$ decide $L_{u}$, y de esta manera $N$ lo decide.
+     
+     \item \textbf{Propuesto:} Verifique, para los ejemplos que faltan, que las propiedades mencionadas satisfacen las condiciones de c), para así aplicar Rice y 
+     \begin{enumerate}[1.]
+         \item La propiedad es $P = \{L\colon L \text{ es finito}\}$. Esta propiedad no es vacío, pues sabemos que hay lenguajes finitos ($\emptyset$ en particular). Esta propiedad no son todos los lenguajes, pues sabemos que hay lenguajes que no son finitos. Esta propiedad tiene algún lenguaje aceptable (cualquiera lo es). El comṕlemento de esta propiedad tiene algún lenguaje aceptable (por ejemplo alguno regular infinito). Dado que la propiedad cumple las condiciones de Rice, $L_{P}$ es indecidible.
+         \item  La propiedad es $P = \{L\colon L \text{ es regular}\}$.
+         \item  La propiedad es $P = \{L\colon L \text{ es libre del contexto}\}$.
+         \item  La propiedad es $P = \{L\colon \exists w, w = w^R \land w\in L\}$.
+         \item  La propiedad es $P = \{\{\epsilon\}\}$.
+         \item Sea $k$ fijo, la propiedad es $P = \{L\colon |L|>k\}$.
+         \item La propiedad es $P = \{L\colon |L|= \aleph_{0}\}$.
+     \end{enumerate}
+ \end{enumerate}
+ \problem \begin{enumerate} [a)]
+ \item Primero recordemos que hemos visto algoritmos para calcular el autómata de complemento y, intersección y unión entre dos autómatas, luego es posible construir el autómata $A \triangle B$. Por otro lado, notemos que $L(A)\triangle L(B) = \emptyset \Leftrightarrow L(A) = L(B)$. Por lo que nos basta encontrar un algoritmo para saber si el lenguaje de un autómata es vacío.\footnote{Notar que lo anterior es una reducción, $a) \le \{\rho(A)\colon L(A) = \emptyset\}$.}\\
+ El algoritmo hace DFS desde el estado inicial. Si el recorrido en grafo alcanza algún nodo final, entonces $L(A) \not = \emptyset$, sino $L(A) = \emptyset$.
+ \item Vimos en clases que el algoritmo CYK computa lo pedido en $O(|G||w|^3)$.
+ \item Mostraremos un algoritmo que va marcando no terminales que ``pueden'' derivar una cadena. Si al terminar el proceso, el símbolo inicial está marcado, entonces $L(G) \not = \emptyset$, sino $L(G) = \emptyset$. El algoritmo es el siguiente:
+ \begin{itemize}
+ \item Construir una gramática $G'$ tal que $L(G) = L(G')$ y está en forma normal de Chomsky.
+ \item $Marc\leftarrow \{M \colon M \rightarrow a \in \mathcal{R}'\}$.
+ \item Mientras $\exists A \leftarrow BC \in \mathcal{R}'$, con $A\not \in Marc \land B\in Marc \land C \in Marc$.
+ \begin{itemize}
+ \item $Marc \leftarrow Marc \cup \{A\}$.
+ \end{itemize}
+ \item return $S\not\in Marc$.
+ \end{itemize}
+ \end{enumerate}
+ \problem Lo que haremos será reducir el complemento del lenguaje universal a $EQ_{TM}$ y (con otra reducción) a $EQ_{TM}^c$. Luego si lo anterior es verdad, ninguno de estos lenguajes es reconocible, pues si lo fuesen $L_{u}^c$ sería reconocible (que sabemos que no es así).\\ Antes de mostrar las reducciones consideremos las máquinas $M_{1}$ que acepta todo ($L(M_{1}) = \Sigma^*$), $M_{2}$ que loopea con todo ($L(M_{2}) = \emptyset$) y $M_{M,w}$ que simula $M$ en $w$ y luego acepta ($L(M_{M,w}) = \Sigma^*$ si $M$ acepta a $w$ y $\emptyset$ si no).
+ \begin{itemize}
+ \item $L_{u}^c \le EQ_{TM}$\\
+ Supongamos que $M_{=}$ reconoce $EQ_{TM}$, entonces $M_{u^c}$ que\\
+ en la entrada $\rho(M)\rho(w)$:
+ \begin{itemize}
+     \item Construye $M_{M,w}$ y $M_{2}$
+     \item Simula $M_{u^c}$ en la codificación de las máquinas anteriores y responde lo mismo
+ \end{itemize}
+ reconoce $L_{u}^c$, pues en el caso que $\emptyset = L(M_{2}) = L(M_{M,w})$ significa que $M$ no acepta $w$.
+  \item $L_{u}^c \le EQ_{TM}^c$\\
+ Supongamos que $M_{\not=}$ reconoce $EQ_{TM}^c$, entonces $M_{u^c}$ que\\
+ en la entrada $\rho(M)\rho(w)$:
+ \begin{itemize}
+     \item Construye $M_{M,w}$ y $M_{1}$
+     \item Simula $M_{u^c}$ en la codificación de las máquinas anteriores y responde lo mismo
+ \end{itemize}
+ reconoce $L_{u}^c$, pues en el caso que $\Sigma^* = L(M_{1}) = L(M_{M,w})$ significa que $M$ acepta $w$.\footnote{Notar que en estas dos reducciones se consideró que la entrada tenía como input una codificación de máquina y string, puesto que esto nos interesa realmente (los strings que corresponden a codificaciones no válidas son reconocibles e incluso decidibles).}
+ \end{itemize}
+ \problem \begin{enumerate}[a)]
+ \item Notemos que $L(M)\not \subseteq L(M') \Leftrightarrow \exists x,  x\in L(M) \land x\not\in L(M')$. Por lo que para reconocer este lenguaje, basta con encontrar este $x$. Sea entonces el siguiente reconocedor que en $\rho(M)$:
+ \begin{itemize}
+     \item No determinísticamente escoge $x$
+     \item Simula $M'$ en $x$ si responde que si loopea
+     \item Sino, simula $M$ en $x$ y responde lo mismo
+ \end{itemize}
+ \item Mostraremos que el lenguaje $L_{D} = \{\rho(M)\colon \rho(M)\not\in L(M)\}$ se reduce a b) y por lo tanto b) no es reconocible (pues si lo fuera $L_{D}$ también lo sería, lo que sabemos que no es verdad).\\ 
+ Antes definamos la máquina $N$ que ignora su input y simula $M$ en $\rho(M)$ ($L(N) = \Sigma^*$ si $\rho(M) \in L(M), \emptyset$ sino).\\
+ Supongamos entonces por contradicción que b) es reconocido por la máquina $M^*$, y construyamos el siguiente reconocedor de $L_{D}$ que en $\rho(M)$:
+ \begin{itemize}
+     \item Construye $N$
+     \item Simula $M^*$ en la codificación de la máquina anterior y responde lo mismo
+ \end{itemize}
+ , veamos que este es un reconocedor de $L_{D}$, puesto que $M^*$ acepta $\rho(N)$ cuando $L(M') \not \subseteq L(N)$ pero esto ocurre solo cuando $L(N) = \emptyset$ que es precisamente cuando $\rho(M) \not \in L(M)$.
+ \end{enumerate}
+\end{problems}
+\end{document}

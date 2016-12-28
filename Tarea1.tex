@@ -1,0 +1,115 @@
+\documentclass[dcc]{fcfmcourse}
+\usepackage{teoria}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts,setspace}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+\usepackage{cancel}
+\usepackage{hyperref}
+\usepackage{epstopdf}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\cfoot{``In mathematics the art of asking questions is more valuable than solving problems" \\ Georg Cantor}
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{porange}{rgb}{0.9,0.5,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\lstset{language=Java,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{porange},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pgreen},
+  basicstyle=\ttfamily,
+  moredelim=[il][\textcolor{pgrey}]{$ $},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
+
+\newenvironment{codebox} {\small \ttfamily \obeylines \begingroup \setstretch{-2.4}} {\endgroup}
+
+\title{Tarea 1}
+\course[CC3102]{Teoría de la Computación}
+\professor{Gonzalo Navarro}
+\assistant{Manuel Cáceres}
+\assistant{Ian Letter}
+
+% Si pasas el comando usedate a la clase, la fecha aparecerá bajo la lista de auxiliares.
+% Puedes usar el formato de fecha por defecto de latex (y traducirla usando babel)
+% o puedes escribir lo que quieras con el comando \date.
+% \date{1 de Septiembre, 2015}
+
+\begin{document}
+\maketitle
+\begin{center}
+Fecha de entrega : 21 de Octubre del 2016
+\end{center}
+\vspace{-1ex}
+
+\section*{Descripción}
+El objetivo de esta tarea es construir una versión simplificada de la herramienta Linux ``grep''\footnote{Para más información de ``grep'', puede consultar su manual en \url{http://www.gnu.org/software/grep/manual/grep.html}}.\\
+La versión más simple de ``grep'' permite buscar un patrón o expresión regular en las líneas de la entrada estándar. Cuando ``grep'' encuentra el patrón dentro de una línea simplemente imprime la línea completa a la salida estándar, es decir, ``grep'' busca substrings de la línea que estén en el lenguaje definido por la expresión regular correspondiente y si encuentra alguno imprime esta línea.\\
+
+Para esto considere:
+\begin{enumerate}[a)]
+    \item Construir un AFND $N$ que reconozca la expresión regular, según el procedimiento descrito en clases.
+    \item Agregar loops al estado inicial de $N$ para buscar en texto.
+    \item Convertir el AFND $N$ a un AFD $D$, según el procedimiento descrito en clases.
+    \item Correr $D$ en cada una de las líneas de la entrada estándar para averiguar si el patrón se encuentra en esta línea.
+    \item Imprimir, a la salida estándar, en caso que corresponda.
+\end{enumerate}
+
+\section*{Notación}
+El texto está construído exclusivamente con símbolos del alfabeto $\Sigma = \{a,\ldots,z,A,\ldots,Z,0,\ldots,9,\ \}$ (alfanuméricos y espacio). De igual manera, las expresiones regulares se construyen sobre el mismo alfabeto $\Sigma$ y en notación infija.\\
+
+Para facilitar el parsing, la definición de expresiones regulares que consideraremos es la siguiente:
+\begin{enumerate}
+    \item Para todo $c \in \Sigma$, $c$ es una expresión regular
+    \item Sean $e_{1}$ y $e_{2}$ expresiones regulares, entonces
+    \begin{enumerate}
+        \item $(e_{1}|e_{2})$ es la expresión regular para la unión
+        \item $(e_{1}.e_{2})$ es la expresión regular para la concatenación
+        \item $(e_{1}*)$ es la expresión regular para la clausura de Kleene
+    \end{enumerate}
+\end{enumerate}
+Las cuales tienen los significados vistos en clases.\\
+
+Observe que una manera simple de parsear la expresión regular consiste en utilizar una adaptación del algoritmo de ``dos pilas'' de Dijkstra\footnote{Una explicación breve y didáctica del algoritmo se puede encontrar en \url{http://algs4.cs.princeton.edu/lectures/13StacksAndQueues.pdf}}.
+\section*{Entrega}
+\begin{itemize}
+    \item El plazo de entrega vence el día 21 de Octubre del 2016. La entrega debe ser en grupos de hasta 3 personas. Debe implementar su programa en C, C++ o Java.
+    \item El programa debe recibir un argumento que corresponde a la expresión regular que se buscará. Además lee de la entrada estándar un texto e imprime aquellas líneas que contengan un ``match'' para la expresión.
+    \item Además del código fuente, debe entregar un breve informe conteniendo una descripción de su programa, instrucciones de compilación y ejecución, y ejemplos de uso.
+\end{itemize}
+\section*{Ejemplo}
+Suponga un archivo de texto \texttt{principito} siguiente :\\
+
+\noindent\fbox{%
+    \parbox{\textwidth}{%
+        Caminando en linea recta no puede uno llegar muy lejos\\
+        Fue el tiempo que pasaste con tu rosa lo que la hizo tan importante\\
+        Bebo para olvidar que soy un borracho\\
+        Lo esencial es invisible para los ojos
+    }%
+}\\
+
+Entonces :
+\begin{lstlisting}[language=bash]
+$ cat principito | ./tarea1 "((u.n)|(n.o))"
+Caminando en linea recta no puede uno llegar muy lejos
+Bebo para olvidar que soy un borracho
+$
+\end{lstlisting}
+En el ejemplo anterior se le entrega a tarea1 el archivo como entrada estándar.
+\end{document}
